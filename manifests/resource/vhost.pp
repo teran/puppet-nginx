@@ -188,6 +188,8 @@ define nginx::resource::vhost (
   $fastcgi                = undef,
   $fastcgi_params         = "${nginx::config::conf_dir}/fastcgi_params",
   $fastcgi_script         = undef,
+  $uwsgi                  = undef,
+  $uwsgi_params           = "${nginx::config::conf_dir}/uwsgi_params",
   $index_files            = [
     'index.html',
     'index.htm',
@@ -311,6 +313,10 @@ define nginx::resource::vhost (
   if ($fastcgi_script != undef) {
     validate_string($fastcgi_script)
   }
+  if ($uwsgi != undef) {
+    validate_string($uwsgi)
+  }
+  validate_string($wusgi_params)
   validate_array($index_files)
   if ($autoindex != undef) {
     validate_string($autoindex)
@@ -502,6 +508,8 @@ define nginx::resource::vhost (
       fastcgi               => $fastcgi,
       fastcgi_params        => $fastcgi_params,
       fastcgi_script        => $fastcgi_script,
+      uwsgi                 => $uwsgi,
+      uwsgi_params          => $uwsgi_params,
       try_files             => $try_files,
       www_root              => $www_root,
       autoindex             => $autoindex,
@@ -543,6 +551,14 @@ define nginx::resource::vhost (
       ensure  => present,
       mode    => '0770',
       content => template('nginx/vhost/fastcgi_params.erb'),
+    }
+  }
+
+  if $wusgi != undef and !defined(File[$wusgi_params]) {
+    file { $uwsgi_params:
+      ensure  => present,
+      mode    => '0770',
+      content => template('nginx/vhost/wusgi_params.erb'),
     }
   }
 
