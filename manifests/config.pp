@@ -63,6 +63,7 @@ class nginx::config(
   $sendfile                       = undef,
   $server_tokens                  = undef,
   $spdy                           = undef,
+  $ssl_ciphers                    = undef,
   $super_user                     = undef,
   $temp_dir                       = undef,
   $types_hash_bucket_size         = undef,
