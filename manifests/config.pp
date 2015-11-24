@@ -38,6 +38,7 @@ class nginx::config(
   $logdir                         = undef,
   $mail                           = undef,
   $multi_accept                   = undef,
+  $mime_types                     = undef,
   $names_hash_bucket_size         = undef,
   $names_hash_max_size            = undef,
   $nginx_error_log                = undef,
@@ -94,6 +95,7 @@ class nginx::config(
     fail('$events_use must be a string or false.')
   }
   validate_string($multi_accept)
+  validate_hash($mime_types)
   validate_array($proxy_set_header)
   validate_string($proxy_http_version)
   validate_bool($confd_purge)
@@ -154,6 +156,12 @@ class nginx::config(
 
   file { $conf_dir:
     ensure => directory,
+  }
+
+  file { "${conf_dir}/mime.types" :
+    ensure  => present,
+    content => template('nginx/conf.d/mime.types.erb'),
+    require => File[$conf_dir]
   }
 
   file { "${conf_dir}/conf.d":

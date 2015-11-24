@@ -1,0 +1,5 @@
+types {
+<% @mime_types.each { |k,v| %>
+  <%= k -%> <%= v -%>;
+<% } -%>
+}
