@@ -35,6 +35,8 @@
 #   [*fastcgi*]              - location of fastcgi (host:port)
 #   [*fastcgi_param*]        - Set additional custom fastcgi_params
 #   [*fastcgi_params*]       - optional alternative fastcgi_params file to use
+#   [*fastcgi_params_include*] - choose whether in location the 'include'
+#     parameter should be added or not
 #   [*fastcgi_script*]       - optional SCRIPT_FILE parameter
 #   [*fastcgi_split_path*]   - Allows settings of fastcgi_split_path_info so
 #     that you can split the script_name and path_info via regex
@@ -149,6 +151,7 @@ define nginx::resource::location (
   $fastcgi              = undef,
   $fastcgi_param        = undef,
   $fastcgi_params       = "${nginx::config::conf_dir}/fastcgi_params",
+  $fastcgi_params_include = true,
   $fastcgi_script       = undef,
   $fastcgi_split_path   = undef,
   $uwsgi                = undef,
